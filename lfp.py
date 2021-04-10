@@ -24,7 +24,7 @@ class LFP:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(self.do_insert())
 
-    async def updateRecord(self, sku, new_product=None, new_name=None,  new_description=None):
+    async def updateRecord(self, sku, new_name=None,  new_description=None):
 
         fields_to_set = {}
 
@@ -34,8 +34,7 @@ class LFP:
         if new_name is not None:
             fields_to_set['name'] = new_name
 
-        if new_product is not None:
-            fields_to_set['product'] = new_product
+
 
 
         _filter = {'sku': sku}
@@ -48,10 +47,10 @@ class LFP:
         await self._db[self._connName].update_one(_filter, update_doc)
 
 
-    def runUpdate(self, sku, new_product=None, new_name=None,  new_description=None):
+    def runUpdate(self, sku, new_name=None,  new_description=None):
 
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.updateRecord(sku, new_product, new_name,  new_description))
+        loop.run_until_complete(self.updateRecord(sku, new_name,  new_description))
 
 
     async def aggTable(self):
@@ -113,7 +112,7 @@ if __name__ == '__main__':
     database.runInsert()
 
     #2nd part
-    #database.runUpdate('lay-raise-best-end', 'new_product', 'new_name')
+    #database.runUpdate('lay-raise-best-end', 'new_name')
 
     #3rd part
     database.runAgg()
